@@ -1,62 +1,106 @@
-# RaceDay Part 2 — RESTful API
+# RaceDay – Part 3
 
-A database-free ASP.NET Core 8 Web API prototype for the RaceDay event platform. It uses in-memory collections, cookie-backed server-side sessions, hashed passwords, Swagger UI and automated tests. **Data resets when the API process stops.** This version intentionally omits SQL Server and Entity Framework Core because the requested version must run without a database; the submitted rubric still requires EF Core/SQL Server for full database marks.
+## ASP.NET Core MVC Web Application
+
+RaceDay is a web-based event management application developed using ASP.NET Core MVC. The application provides a platform for organisers to manage sporting events and for participants to explore events, enrol, and view their results.
+
+The Part 3 application uses the REST API developed in Part 2 to retrieve and manage application data.
+
+## Features
+
+### Organiser
+- Secure login using the organiser account.
+- View the organiser dashboard.
+- View and manage sporting events.
+- Create, edit and delete events.
+- Manage event categories.
+- View participant enrolments.
+- Manage and record event results.
+- Update profile information.
+
+### Participant
+- Register and log in.
+- Browse available sporting events.
+- View event details and categories.
+- Enrol in events.
+- View personal results.
+- Update profile information.
+
+### General
+- Session-based authentication.
+- Role-specific navigation for organisers and participants.
+- REST API integration.
+- Responsive user interface.
+- Consistent sporty design and styling.
+- Success and error notifications.
+
+## Technologies Used
+
+- C#
+- ASP.NET Core MVC
+- ASP.NET Core Web API
+- HTML5
+- CSS3
+- Bootstrap
+- JavaScript
+- REST API
+- Git and GitHub
+
+
+## Project Structure
+
+The solution is organised into the following main components:
+
+- **RaceDay.Mvc** – The ASP.NET Core MVC front end.
+- **src/RaceDay.Api** – The REST API responsible for application data and business operations.
+
 
 ## Requirements
-- .NET 8 SDK
-- Visual Studio 2022 (ASP.NET and web development workload) or the .NET CLI
 
-## Run locally
-1. Extract the ZIP and open `RaceDay.sln` in Visual Studio.
-2. Set `RaceDay.Api` as the startup project.
-3. Run with **F5** or use a terminal from the solution folder:
+To run the project locally, you will need:
+
+- Visual Studio 2022 or later.
+- .NET SDK compatible with the project.
+- A web browser.
+- Git (optional, for version control).
+
+## Installation and Setup
+
+1. Clone the repository:
+
    ```bash
-   dotnet restore RaceDay.sln
-   dotnet run --project src/RaceDay.Api/RaceDay.Api.csproj
+   git clone https://github.com/ST10441779/RaceDay-Part-3.git
    ```
-4. Open the URL printed by the console and add `/swagger` (for example, `https://localhost:7xxx/swagger`). The exact port is assigned by your machine.
-5. In Swagger, register an Organiser and a Participant using `/api/auth/register`, then log in using `/api/auth/login`. Swagger's browser session cookie maintains the logged-in state. Use **Try it out** for the endpoints.
 
-## Roles
-- **Organiser:** manage owned events and their categories, view enrolments for owned events, record/update results.
-- **Participant:** browse events and categories, enrol in an event, view own enrolments and results.
-- Both roles can view and update their own profile. Public event/category listing does not require login. Protected routes return `401` when logged out and `403` when the role is not permitted.
+2. Open the downloaded project folder.
 
-## Main endpoint groups
-- `/api/auth` — register, login, logout, current account
-- `/api/profile` — view/update own profile
-- `/api/events` — list/get events; Organiser create/update/delete
-- `/api/events/{eventId}/categories` — list categories; Organiser create/update/delete
-- `/api/enrolments` — Participant enrolment and own enrolments; Organiser view enrolments for an owned event
-- `/api/results` — Participant's results; Organiser capture/update result
+3. Open the solution file in Visual Studio.
 
-All endpoint summaries and descriptions are included in Swagger. Passwords are hashed with ASP.NET Core's `PasswordHasher<User>` and are not stored as plaintext. Sessions expire after 30 minutes of inactivity.
+4. Restore the NuGet packages.
 
-## Run unit tests
-```bash
-dotnet test RaceDay.sln
-```
-The tests cover registration validation, failed login, unauthenticated access, role rejection, Organiser event creation and Participant enrolment.
+5. Ensure the API base address configured in the MVC application points to the running RaceDay API.
 
-## GitHub Actions CI/CD
-The workflow at `.github/workflows/dotnet.yml` restores, builds and tests the solution on every push and pull request. After pushing the repository, open **GitHub → Actions**, wait for a successful run, and add a genuine screenshot of the green run below. A screenshot cannot be supplied until the workflow has actually run in your GitHub repository.
+6. Start the API project.
 
-**CI build screenshot:** _Add your own screenshot here after the first successful GitHub Actions run._
+7. Start the MVC project.
 
-**YouTube demonstration:** _Replace this line with your unlisted YouTube video URL after recording the demo._
+8. Open the local application URL displayed by Visual Studio.
 
-## Suggested demonstration order
-1. Explain the solution structure and database-free in-memory store.
-2. Open Swagger and register/log in as an Organiser.
-3. Create an event and add an age/distance category.
-4. Log in as a Participant in a separate browser/incognito session; enrol and view own enrolments.
-5. Demonstrate `401` logged-out responses and `403` wrong-role responses.
-6. Capture a result as the event's Organiser and view it as the Participant.
-7. Run `dotnet test RaceDay.sln` and show the test output and GitHub Actions build.
+## Running the Application
 
-## Important submission checklist
-- [ ] Push the solution to your own GitHub repository in a clearly named Part 2 branch/folder.
-- [ ] Make at least 20 meaningful commits yourself; do not fabricate commit history.
-- [ ] Add the real successful GitHub Actions screenshot.
-- [ ] Record and link your own unlisted YouTube video.
-- [ ] Confirm whether your lecturer permits the no-database variation. The assignment's database requirement is not fulfilled by this prototype.
+The API must be running for the MVC application to retrieve and manage data.
+
+The recommended startup order is:
+
+1. Start the RaceDay API.
+2. Start the RaceDay MVC application.
+3. Register or log in using the appropriate account.
+4. Navigate through the organiser or participant interface.
+
+
+## Project Purpose
+
+The purpose of RaceDay is to simplify the management of sporting events by providing separate interfaces for event organisers and participants.
+
+The application demonstrates the integration of an ASP.NET Core MVC front end with a REST API, session-based authentication, role-specific functionality and responsive web design.
+
