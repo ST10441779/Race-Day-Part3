@@ -1,0 +1,130 @@
+﻿@model List<RaceDay.Mvc.Models.RaceEventViewModel>
+
+@{
+    ViewData["Title"] = "Manage Events";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold">Manage Events</h1>
+            <p class="text-muted">
+                Create, update and manage your sporting events.
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-dark">
+            + Add New Event
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            You have not created any events yet.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Distance</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@item.Name</td>
+
+                            <td>
+                                @item.Date.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>@item.Location</td>
+
+                            <td>@item.DistanceKm km</td>
+
+                            <td>
+                                <span class="badge bg-primary">
+                                    @item.EventType
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="d-flex gap-2 flex-wrap">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Categories"
+                                       asp-route-eventId="@item.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Categories
+                                    </a>
+
+                                    <a asp-action="Enrolments"
+                                       asp-route-eventId="@item.Id"
+                                       class="btn btn-sm btn-outline-success">
+                                        Enrolments
+                                    </a>
+
+                                    <a asp-action="Results"
+                                       asp-route-eventId="@item.Id"
+                                       class="btn btn-sm btn-outline-success">
+                                        Results
+                                    </a>
+
+                                    <form asp-action="Delete"
+                                          asp-route-id="@item.Id"
+                                          method="post"
+                                          onsubmit="return confirm('Are you sure you want to delete this event?');">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit"
+                                                class="btn btn-sm btn-danger">
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    }
+
+</div>

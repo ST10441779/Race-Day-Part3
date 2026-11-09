@@ -1,0 +1,307 @@
+﻿@model List<RaceDay.Mvc.Models.RaceEventViewModel>
+
+@{
+    ViewData["Title"] = "Explore Events";
+    var events = Model ?? new List<RaceDay.Mvc.Models.RaceEventViewModel>();
+}
+
+<style>
+    .participant-hero {
+        background: linear-gradient(120deg, #101c32, #263f60);
+        border-radius: 20px;
+        padding: 38px;
+        color: white;
+        margin-bottom: 30px;
+    }
+
+        .participant-hero h1 {
+            font-weight: 800;
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        .participant-hero p {
+            color: #d2dbea;
+            max-width: 620px;
+            line-height: 1.7;
+        }
+
+    .event-count {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 12px 18px;
+        border-radius: 14px;
+        display: inline-block;
+        color: white;
+        font-weight: 700;
+    }
+
+    .participant-event-card {
+        background: white;
+        border: 1px solid #e7eaf0;
+        border-radius: 17px;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .participant-event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(16, 28, 50, 0.09);
+        }
+
+    .event-card-top {
+        height: 9px;
+        background: linear-gradient(90deg, #ff6b2c, #ff9a70);
+    }
+
+    .event-card-body {
+        padding: 24px;
+    }
+
+    .event-type {
+        display: inline-block;
+        background: #fff0e9;
+        color: #e95619;
+        border-radius: 20px;
+        padding: 6px 12px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .event-card-title {
+        color: #101c32;
+        font-weight: 800;
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+    }
+
+    .event-description {
+        color: #778195;
+        line-height: 1.7;
+        min-height: 65px;
+    }
+
+    .event-details {
+        border-top: 1px solid #edf0f5;
+        margin-top: 18px;
+        padding-top: 17px;
+    }
+
+    .event-detail {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+    }
+
+        .event-detail span:first-child {
+            color: #778195;
+        }
+
+        .event-detail strong {
+            color: #101c32;
+            text-align: right;
+        }
+
+    .participant-empty {
+        background: #f8f9fc;
+        border: 1px dashed #d6dce7;
+        border-radius: 17px;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .participant-empty-icon {
+        font-size: 3.2rem;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container py-4">
+
+    <!-- PAGE HEADER -->
+    <section class="participant-hero">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <span class="text-uppercase fw-bold"
+                      style="color: #ff9a70; letter-spacing: 1.5px; font-size: 0.8rem;">
+                    Explore. Participate. Achieve.
+                </span>
+
+                <h1 class="mt-2">Find Your Next Challenge</h1>
+
+                <p class="mb-4">
+                    Discover sporting events, explore race details and
+                    choose your next opportunity to get active.
+                    Your next achievement starts here.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <a asp-controller="Participant"
+                       asp-action="MyResults"
+                       class="btn btn-primary px-4">
+                        🏆 My Results
+                    </a>
+
+                    <a asp-controller="Account"
+                       asp-action="Profile"
+                       class="btn btn-outline-light px-4">
+                        My Profile
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+                <div class="event-count">
+                    <span style="font-size: 1.5rem;">
+                        @events.Count
+                    </span>
+                    <br />
+                    Events Available
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close">
+            </button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close">
+            </button>
+        </div>
+    }
+
+    <!-- EVENTS HEADING -->
+    <div class="d-flex justify-content-between
+                align-items-center flex-wrap gap-2 mb-4">
+
+        <div>
+            <h3 class="fw-bold mb-1" style="color: #101c32;">
+                Available Events
+            </h3>
+
+            <p class="text-muted mb-0">
+                Select an event to view its details and enrol.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- EVENT CARDS -->
+    @if (!events.Any())
+    {
+        <div class="participant-empty">
+
+            <div class="participant-empty-icon">🏃</div>
+
+            <h4 class="fw-bold" style="color: #101c32;">
+                No Events Available
+            </h4>
+
+            <p class="text-muted mb-0">
+                There are currently no sporting events to display.
+                Please check again later.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var item in events)
+            {
+                <div class="col-md-6 col-xl-4">
+
+                    <div class="participant-event-card">
+
+                        <div class="event-card-top"></div>
+
+                        <div class="event-card-body">
+
+                            <span class="event-type">
+                                @item.EventType
+                            </span>
+
+                            <h4 class="event-card-title">
+                                @item.Name
+                            </h4>
+
+                            <p class="event-description">
+                                @item.Description
+                            </p>
+
+                            <div class="event-details">
+
+                                <div class="event-detail">
+                                    <span>📅 Date</span>
+                                    <strong>
+                                        @item.Date.ToString("dd MMM yyyy")
+                                    </strong>
+                                </div>
+
+                                <div class="event-detail">
+                                    <span>📍 Location</span>
+                                    <strong>
+                                        @item.Location
+                                    </strong>
+                                </div>
+
+                                <div class="event-detail">
+                                    <span>🏁 Distance</span>
+                                    <strong>
+                                        @item.DistanceKm km
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="btn btn-primary w-100 mt-3">
+                                View Event Details →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

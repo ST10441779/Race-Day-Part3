@@ -1,0 +1,362 @@
+﻿@model RaceDay.Mvc.Models.OrganiserDashboardViewModel
+
+@{
+    ViewData["Title"] = "Organiser Dashboard";
+
+    var events = Model.Events
+        .OrderBy(x => x.Event.Date)
+        .ToList();
+}
+
+<style>
+    .dashboard-welcome {
+        background: linear-gradient(120deg, #101c32, #263f60);
+        color: white;
+        border-radius: 20px;
+        padding: 32px;
+        margin-bottom: 28px;
+    }
+
+        .dashboard-welcome h1 {
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-welcome p {
+            color: #d2dbea;
+            margin-bottom: 0;
+        }
+
+    .dashboard-stat {
+        background: white;
+        border: 1px solid #e7eaf0;
+        border-radius: 17px;
+        padding: 23px;
+        height: 100%;
+        box-shadow: 0 4px 15px rgba(16, 28, 50, 0.04);
+    }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 16px;
+    }
+
+    .stat-number {
+        color: #101c32;
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 3px;
+    }
+
+    .stat-label {
+        color: #778195;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .dashboard-panel {
+        background: white;
+        border: 1px solid #e7eaf0;
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(16, 28, 50, 0.04);
+    }
+
+        .dashboard-panel h4 {
+            color: #101c32;
+            font-weight: 800;
+        }
+
+    .dashboard-table {
+        margin-bottom: 0;
+    }
+
+        .dashboard-table thead th {
+            background: #f4f6fa;
+            color: #596579;
+            border-bottom: 1px solid #e7eaf0;
+            padding: 15px;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .dashboard-table tbody td {
+            padding: 16px 15px;
+            vertical-align: middle;
+            color: #465267;
+        }
+
+    .event-name {
+        color: #101c32;
+        font-weight: 700;
+    }
+
+    .event-date {
+        font-weight: 600;
+        color: #465267;
+    }
+
+    .enrolment-count {
+        display: inline-block;
+        background: #fff0e9;
+        color: #e95619;
+        border-radius: 20px;
+        padding: 6px 12px;
+        font-weight: 800;
+        min-width: 38px;
+        text-align: center;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 55px 20px;
+        background: #f8f9fc;
+        border: 1px dashed #d6dce7;
+        border-radius: 15px;
+    }
+
+    .empty-state-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+    .dashboard-action {
+        display: inline-block;
+        margin: 2px;
+        font-size: 0.8rem;
+    }
+</style>
+
+<div class="container-fluid py-3">
+
+    <!-- WELCOME HEADER -->
+    <section class="dashboard-welcome">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="text-uppercase fw-bold"
+                      style="color: #ff9a70; letter-spacing: 1.5px; font-size: 0.8rem;">
+                    RaceDay Management
+                </span>
+
+                <h1 class="mt-2">Organiser Dashboard</h1>
+
+                <p>
+                    Manage your sporting events, monitor enrolments
+                    and keep your race activities organised.
+                </p>
+            </div>
+
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                <a asp-action="Create"
+                   class="btn btn-primary btn-lg px-4">
+                    + Create New Event
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUMMARY STATISTICS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="dashboard-stat">
+                <div class="stat-icon"
+                     style="background: #eaf1ff;">
+                    📅
+                </div>
+
+                <div class="stat-number">@Model.TotalEvents</div>
+                <div class="stat-label">Total Events</div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="dashboard-stat">
+                <div class="stat-icon"
+                     style="background: #e9f8ef;">
+                    🏁
+                </div>
+
+                <div class="stat-number">@Model.UpcomingEvents</div>
+                <div class="stat-label">Upcoming Events</div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="dashboard-stat">
+                <div class="stat-icon"
+                     style="background: #f0edff;">
+                    🏆
+                </div>
+
+                <div class="stat-number">@Model.PastEvents</div>
+                <div class="stat-label">Past Events</div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="dashboard-stat">
+                <div class="stat-icon"
+                     style="background: #fff0e9;">
+                    👥
+                </div>
+
+                <div class="stat-number">@Model.TotalEnrolments</div>
+                <div class="stat-label">Total Enrolments</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- EVENT MANAGEMENT -->
+    <section class="dashboard-panel">
+
+        <div class="d-flex justify-content-between
+                    align-items-center flex-wrap gap-3 mb-4">
+
+            <div>
+                <h4 class="mb-1">My Events</h4>
+                <p class="text-muted mb-0">
+                    View and manage the events you have created.
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                <a asp-controller="Account"
+                   asp-action="Profile"
+                   class="btn btn-outline-secondary">
+                    My Profile
+                </a>
+
+                <a asp-action="Events"
+                   class="btn btn-outline-primary">
+                    View All Events
+                </a>
+
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    + New Event
+                </a>
+            </div>
+        </div>
+
+        @if (events.Count == 0)
+        {
+            <div class="empty-state">
+
+                <div class="empty-state-icon">🏃</div>
+
+                <h5 class="fw-bold" style="color: #101c32;">
+                    No Events Created Yet
+                </h5>
+
+                <p class="text-muted mb-4">
+                    Get started by creating your first sporting event.
+                    Your events will appear here once created.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-primary px-4">
+                    Create Your First Event
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table dashboard-table align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Distance</th>
+                            <th>Enrolments</th>
+                            <th>Management</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var summary in events)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="event-name">
+                                        @summary.Event.Name
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="event-date">
+                                        @summary.Event.Date.ToString("dd MMM yyyy")
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @summary.Event.Location
+                                </td>
+
+                                <td>
+                                    @summary.Event.DistanceKm km
+                                </td>
+
+                                <td>
+                                    <span class="enrolment-count">
+                                        @summary.TotalEnrolments
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex flex-wrap gap-1">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@summary.Event.Id"
+                                           class="btn btn-sm btn-primary dashboard-action">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Categories"
+                                           asp-route-eventId="@summary.Event.Id"
+                                           class="btn btn-sm btn-outline-primary dashboard-action">
+                                            Categories
+                                        </a>
+
+                                        <a asp-action="Enrolments"
+                                           asp-route-eventId="@summary.Event.Id"
+                                           class="btn btn-sm btn-outline-success dashboard-action">
+                                            Enrolments
+                                        </a>
+
+                                        <a asp-action="Results"
+                                           asp-route-eventId="@summary.Event.Id"
+                                           class="btn btn-sm btn-outline-dark dashboard-action">
+                                            Results
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        }
+
+    </section>
+
+    <div class="text-muted small mt-3">
+        RaceDay Event Management System
+    </div>
+
+</div>

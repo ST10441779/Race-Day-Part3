@@ -1,0 +1,104 @@
+﻿@model List<RaceDay.Mvc.Models.ResultEntryViewModel>
+
+@{
+    ViewData["Title"] = "Manage Results";
+    var eventId = (Guid)ViewBag.EventId;
+}
+
+<h2>Manage Event Results</h2>
+<p class="text-muted">
+    Event: <strong>@ViewBag.EventName</strong>
+</p>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<a asp-action="Events" class="btn btn-outline-secondary mb-3">
+    Back to Events
+</a>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Enrolled Participants</h5>
+        <h3>@Model.Count</h3>
+        <p class="text-muted mb-0">
+            Enter each participant's finishing time and position.
+        </p>
+    </div>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">
+        There are no enrolments for this event. Participants must enrol before results can be recorded.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Participant ID</th>
+                    <th>Category</th>
+                    <th>Finishing Time</th>
+                    <th>Position</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var participant in Model)
+                {
+                    <tr>
+                        <td><small>@participant.ParticipantId</small></td>
+                        <td>@participant.CategoryName</td>
+                        <td colspan="3">
+                            <form asp-action="SaveResult" method="post"
+                                  class="row g-2 align-items-center">
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden" name="EventId"
+                                       value="@participant.EventId" />
+                                <input type="hidden" name="EnrolmentId"
+                                       value="@participant.EnrolmentId" />
+
+                                <div class="col-md-4">
+                                    <input type="text" name="FinishTime"
+                                           class="form-control"
+                                           placeholder="HH:MM:SS"
+                                           pattern="[0-9]{1,2}:[0-5][0-9]:[0-5][0-9]"
+                                           required />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <input type="number" name="Position"
+                                           class="form-control"
+                                           min="1"
+                                           placeholder="Position"
+                                           required />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <button type="submit"
+                                            class="btn btn-success">
+                                        Save Result
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<p class="text-muted">
+    Time format example: 00:45:32 means 45 minutes and 32 seconds.
+</p>

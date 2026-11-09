@@ -1,0 +1,56 @@
+﻿@model List<RaceDay.Mvc.Models.ParticipantResultViewModel>
+
+@{
+    ViewData["Title"] = "My Results";
+}
+
+<h2>My Race Results</h2>
+<p class="text-muted">
+    View your finishing times and positions for completed events.
+</p>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">
+        You do not have any published results yet. Check again after the event organiser has recorded your result.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Event</th>
+                    <th>Event Date</th>
+                    <th>Category</th>
+                    <th>Finish Time</th>
+                    <th>Position</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model)
+                {
+                    <tr>
+                        <td>@result.EventName</td>
+                        <td>@result.EventDate.ToString("dd MMM yyyy")</td>
+                        <td>@result.CategoryName</td>
+                        <td>
+                            <strong>@result.FinishTime.ToString(@"hh\:mm\:ss")</strong>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">
+                                @result.Position
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

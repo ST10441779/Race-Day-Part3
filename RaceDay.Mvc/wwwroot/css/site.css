@@ -1,0 +1,428 @@
+/* =========================================
+   RACEDAY - MAIN DESIGN SYSTEM
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --rd-navy: #101c32;
+    --rd-dark: #0a1425;
+    --rd-orange: #ff6b2c;
+    --rd-orange-hover: #e95619;
+    --rd-light: #f4f6fa;
+    --rd-white: #ffffff;
+    --rd-text: #202b3c;
+    --rd-muted: #788397;
+    --rd-border: #e6eaf0;
+    --rd-green: #198754;
+    --rd-amber: #f0a52b;
+    --rd-shadow: 0 8px 28px rgba(16, 28, 50, 0.07);
+}
+
+/* =========================================
+   GLOBAL STYLING
+   ========================================= */
+
+html {
+    font-size: 16px;
+    min-height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--rd-light);
+    color: var(--rd-text);
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--rd-navy);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+p {
+    color: var(--rd-muted);
+}
+
+a {
+    color: var(--rd-orange);
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+    a:hover {
+        color: var(--rd-orange-hover);
+    }
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
+
+.raceday-navbar {
+    background: var(--rd-navy);
+    padding: 15px 0;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+.raceday-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: white !important;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+    .raceday-brand small {
+        display: block;
+        margin-top: 5px;
+        font-family: 'Inter', sans-serif;
+        font-size: 8px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        color: #aab5c7;
+    }
+
+.brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    background: var(--rd-orange);
+    border-radius: 10px;
+    color: white;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.brand-orange {
+    color: var(--rd-orange);
+}
+
+.navbar-nav .nav-link {
+    color: #dce3ee !important;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 14px !important;
+    transition: 0.2s ease;
+}
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+        color: var(--rd-orange) !important;
+    }
+
+.user-welcome {
+    display: inline-block;
+    color: #dce3ee;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px;
+}
+
+.btn-logout {
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+    .btn-logout:hover {
+        background: white;
+        color: var(--rd-navy);
+    }
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+
+.main-content {
+    flex: 1;
+    padding-top: 25px;
+    padding-bottom: 55px;
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.btn {
+    border-radius: 8px;
+    font-weight: 700;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+}
+
+.btn-raceday,
+.btn-primary {
+    background: var(--rd-orange);
+    border: 1px solid var(--rd-orange);
+    color: white !important;
+}
+
+    .btn-raceday:hover,
+    .btn-primary:hover {
+        background: var(--rd-orange-hover);
+        border-color: var(--rd-orange-hover);
+        color: white !important;
+        transform: translateY(-1px);
+    }
+
+.btn-dark {
+    background: var(--rd-navy);
+    border-color: var(--rd-navy);
+}
+
+    .btn-dark:hover {
+        background: var(--rd-dark);
+    }
+
+.btn-outline-success {
+    color: var(--rd-green);
+    border-color: var(--rd-green);
+}
+
+    .btn-outline-success:hover {
+        background: var(--rd-green);
+        color: white;
+    }
+
+/* =========================================
+   CARDS
+   ========================================= */
+
+.card {
+    background: white;
+    border: 1px solid var(--rd-border);
+    border-radius: 13px;
+    box-shadow: var(--rd-shadow);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .card:hover {
+        box-shadow: 0 12px 32px rgba(16, 28, 50, 0.11);
+    }
+
+.card-header {
+    background: white;
+    border-bottom: 1px solid var(--rd-border);
+    padding: 18px 22px;
+    font-weight: 700;
+    color: var(--rd-navy);
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* =========================================
+   FORMS
+   ========================================= */
+
+.form-label {
+    color: var(--rd-navy);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid var(--rd-border);
+    border-radius: 8px;
+    padding: 11px 13px;
+    font-size: 14px;
+    color: var(--rd-text);
+    background-color: white;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--rd-orange);
+        box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.12);
+    }
+
+    .form-control::placeholder {
+        color: #a4adbb;
+    }
+
+/* =========================================
+   TABLES
+   ========================================= */
+
+.table {
+    color: var(--rd-text);
+    vertical-align: middle;
+    margin-bottom: 0;
+}
+
+    .table thead th {
+        background: #f3f5f9;
+        color: var(--rd-navy);
+        border-bottom: 1px solid var(--rd-border);
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 15px;
+    }
+
+    .table tbody td {
+        padding: 15px;
+        border-color: var(--rd-border);
+        font-size: 13px;
+    }
+
+    .table tbody tr:hover {
+        background: #fafbfc;
+    }
+
+/* =========================================
+   STATUS LABELS
+   ========================================= */
+
+.badge {
+    border-radius: 30px;
+    padding: 7px 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.bg-success {
+    background-color: #d8f3e4 !important;
+    color: #137443 !important;
+}
+
+.bg-warning {
+    background-color: #fff0cf !important;
+    color: #966000 !important;
+}
+
+.bg-danger {
+    background-color: #ffe0e0 !important;
+    color: #b42318 !important;
+}
+
+.bg-info {
+    background-color: #dceeff !important;
+    color: #175a94 !important;
+}
+
+/* =========================================
+   ALERTS
+   ========================================= */
+
+.alert {
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 15px 18px;
+}
+
+/* =========================================
+   PAGE HEADINGS
+   ========================================= */
+
+.page-heading {
+    margin-bottom: 28px;
+}
+
+    .page-heading h1 {
+        font-size: 30px;
+        margin-bottom: 6px;
+    }
+
+    .page-heading p {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.raceday-footer {
+    background: var(--rd-dark);
+    color: #aab5c7;
+    padding: 30px 0;
+    margin-top: auto;
+    font-size: 12px;
+}
+
+    .raceday-footer p {
+        color: #aab5c7;
+        font-size: 12px;
+    }
+
+.footer-brand {
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+    .footer-brand span {
+        color: var(--rd-orange);
+    }
+
+/* =========================================
+   ACCESSIBILITY AND RESPONSIVENESS
+   ========================================= */
+
+:focus-visible {
+    outline: 3px solid rgba(255, 107, 44, 0.55);
+    outline-offset: 3px;
+}
+
+@media (max-width: 991px) {
+
+    .navbar-nav {
+        padding-top: 15px;
+    }
+
+        .navbar-nav .nav-link {
+            padding: 10px 0 !important;
+        }
+
+    .user-welcome {
+        padding-left: 0;
+    }
+
+    .main-content {
+        padding-top: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .page-heading h1 {
+        font-size: 24px;
+    }
+
+    .card-body {
+        padding: 18px;
+    }
+
+    .raceday-footer {
+        text-align: center;
+    }
+
+    .raceday-brand {
+        font-size: 23px;
+    }
+}

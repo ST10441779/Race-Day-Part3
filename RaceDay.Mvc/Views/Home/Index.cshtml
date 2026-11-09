@@ -1,0 +1,282 @@
+﻿@{
+    ViewData["Title"] = "Home";
+
+    bool isLoggedIn = Context.Session.GetString("UserId") != null;
+    string? role = Context.Session.GetString("Role");
+}
+
+<style>
+    .home-hero {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(120deg, #101c32 0%, #1b3152 65%, #263f60 100%);
+        border-radius: 24px;
+        padding: 70px 55px;
+        color: white;
+        min-height: 390px;
+    }
+
+    .home-hero::after {
+        content: "🏃";
+        position: absolute;
+        right: 7%;
+        bottom: -35px;
+        font-size: 220px;
+        opacity: 0.12;
+        transform: rotate(-12deg);
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 650px;
+    }
+
+    .hero-label {
+        display: inline-block;
+        background: rgba(255, 107, 44, 0.16);
+        color: #ff9a70;
+        border: 1px solid rgba(255, 107, 44, 0.4);
+        border-radius: 30px;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .hero-title {
+        font-size: clamp(2.6rem, 5vw, 4.5rem);
+        line-height: 1.05;
+        font-weight: 800;
+        margin: 22px 0;
+    }
+
+    .hero-description {
+        color: #d2dbea;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        max-width: 560px;
+    }
+
+    .home-feature {
+        height: 100%;
+        padding: 28px;
+        border: 1px solid #e7eaf0;
+        border-radius: 18px;
+        background: white;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .home-feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(16, 28, 50, 0.09);
+    }
+
+    .feature-symbol {
+        width: 54px;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff0e9;
+        border-radius: 15px;
+        font-size: 1.7rem;
+        margin-bottom: 20px;
+    }
+
+    .home-section-title {
+        font-weight: 800;
+        color: #101c32;
+    }
+
+    .home-feature p {
+        color: #687386;
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
+
+    .home-bottom {
+        background: #f0f3f8;
+        border-radius: 20px;
+        padding: 35px;
+    }
+
+    @@media (max-width: 768px) {
+        .home-hero {
+            padding: 45px 25px;
+        }
+
+        .home-hero::after {
+            font-size: 130px;
+            right: 0;
+        }
+    }
+</style>
+
+<div class="container py-4">
+
+    <!-- HERO SECTION -->
+    <section class="home-hero mb-5">
+        <div class="hero-content">
+
+            <span class="hero-label">Your sporting journey starts here</span>
+
+            <h1 class="hero-title">
+                Find Your Race.<br />
+                Reach Your Finish.
+            </h1>
+
+            <p class="hero-description">
+                Discover running, walking and cycling events, register for
+                challenges, and keep track of your achievements with RaceDay.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+
+                <a asp-controller="Participant"
+                   asp-action="Index"
+                   class="btn btn-primary btn-lg px-4">
+                    Explore Events
+                </a>
+
+                @if (!isLoggedIn)
+                {
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="btn btn-outline-light btn-lg px-4">
+                        Create Account
+                    </a>
+                }
+                else if (role == "Organiser")
+                {
+                    <a asp-controller="Organiser"
+                       asp-action="Dashboard"
+                       class="btn btn-outline-light btn-lg px-4">
+                        Organiser Dashboard
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Participant"
+                       asp-action="MyResults"
+                       class="btn btn-outline-light btn-lg px-4">
+                        View My Results
+                    </a>
+                }
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section class="text-center mb-5">
+        <span class="text-uppercase fw-bold"
+              style="color: #ff6b2c; letter-spacing: 2px;">
+            The RaceDay Experience
+        </span>
+
+        <h2 class="home-section-title display-6 mt-2">
+            Everything You Need for Race Day
+        </h2>
+
+        <p class="text-muted mx-auto mt-3"
+           style="max-width: 650px; line-height: 1.8;">
+            Whether you are organising an event or preparing to participate,
+            RaceDay brings the essential event-management features together
+            in one convenient platform.
+        </p>
+    </section>
+
+    <!-- FEATURE CARDS -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="home-feature">
+                <div class="feature-symbol">🏁</div>
+
+                <h4 class="fw-bold">Discover Events</h4>
+
+                <p>
+                    Browse available sporting events, explore event details
+                    and find your next challenge.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="home-feature">
+                <div class="feature-symbol">📝</div>
+
+                <h4 class="fw-bold">Simple Enrolment</h4>
+
+                <p>
+                    Register for events and select the category that suits
+                    your sporting goals.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="home-feature">
+                <div class="feature-symbol">🏆</div>
+
+                <h4 class="fw-bold">Track Results</h4>
+
+                <p>
+                    Keep track of your race results and celebrate your
+                    progress and achievements.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ORGANISER / PARTICIPANT SECTION -->
+    <section class="home-bottom mb-4">
+        <div class="row align-items-center g-4">
+
+            <div class="col-lg-8">
+                <h3 class="home-section-title mb-2">
+                    Ready to get started?
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Join RaceDay and become part of a community that
+                    celebrates participation, competition and achievement.
+                </p>
+            </div>
+
+            <div class="col-lg-4 text-lg-end">
+
+                @if (!isLoggedIn)
+                {
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="btn btn-primary btn-lg px-4">
+                        Join RaceDay
+                    </a>
+                }
+                else if (role == "Organiser")
+                {
+                    <a asp-controller="Organiser"
+                       asp-action="Create"
+                       class="btn btn-primary btn-lg px-4">
+                        Create an Event
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Participant"
+                       asp-action="Index"
+                       class="btn btn-primary btn-lg px-4">
+                        Find an Event
+                    </a>
+                }
+
+            </div>
+        </div>
+    </section>
+
+</div>
